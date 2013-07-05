@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 public class CodeCompilerImpl implements CodeCompiler{
     
     final Logger log = LoggerFactory.getLogger(CodeCompilerImpl.class);
-    final Map<String, byte[]> classBytes = new ConcurrentHashMap<String, byte[]>();
+    //final Map<String, byte[]> classBytes = new ConcurrentHashMap<String, byte[]>();
     
     /**
      * 
@@ -58,7 +58,7 @@ public class CodeCompilerImpl implements CodeCompiler{
                     String className, JavaFileObject.Kind kind, FileObject sibling){
                 ByteArrayJavaClass classFileObject = new ByteArrayJavaClass(className);
                 //classFileObjects.add(classFileObject);
-                classBytes.put(className, classFileObject.getBytes());
+                //classBytes.put(className, classFileObject.getBytes());
                 return classFileObject;
             }
         };
