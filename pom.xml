@@ -4,7 +4,7 @@
 
     <groupId>com.codeengine</groupId>
     <artifactId>code-engine</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>code-runner-engine</name>
@@ -35,6 +35,11 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>20030203.000550</version>
         </dependency>
     </dependencies>
 </project>
