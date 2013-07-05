@@ -2,3 +2,4 @@ target
 code-runner-engine.log
 .idea
 code-engine.iml
+*.class
