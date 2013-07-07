@@ -1,10 +1,10 @@
-code-runner-engine
-==================
+Java Dynamic Code Runner Engine
+================================
 
-Code Runner Engine using Java 1.6 Compiler Tools API
+Java Code Runner Engine using Java 1.6 Compiler Tools API
 
-To run the test and Cobertura code coverage
-==================================
+Maven test and Cobertura code coverage
+======================================
 
 ## To run Maven tests
     [code-runner-engine]$ mvn test
