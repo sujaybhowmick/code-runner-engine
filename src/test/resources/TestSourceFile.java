@@ -8,7 +8,25 @@
  * @author sujay
  */
 public class TestSourceFile {
-    public static void main(String args[]){
-        System.out.println("Hello Java Compiler API");
+    public static int add(int a, int b){
+        return a + b;
+    }
+    
+    public String reverseString(final String str){
+        StringBuilder given = new StringBuilder(str);
+        StringBuilder result = new StringBuilder();
+        for(int i = given.length()-1; i >= 0; i--){
+            result.append(given.charAt(i));
+        }
+        return result.toString();
+    }
+    
+    public String errorMethod(final String str){
+        StringBuilder given = new StringBuilder(str);
+        StringBuilder result = new StringBuilder();
+        for(int i = given.length(); i >= 0; i--){
+            result.append(given.charAt(i));
+        }
+        return result.toString();
     }
 }

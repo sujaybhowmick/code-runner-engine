@@ -6,9 +6,9 @@ package com.codeengine;
 
 import com.codeengine.impl.CodeCompilerImpl;
 import com.codeengine.impl.CompileErrorCollector;
-import java.io.InputStream;
-import java.net.URL;
+import com.codeengine.impl.CompiledClassCollector;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -55,9 +55,16 @@ public class CodeCompilerTest {
         assertNotNull(fileContents);
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
+        CompiledClassCollector compiledClassCollector = 
+                new CompiledClassCollector();
         assertTrue(this.engine.compile(classFileName, fileContents, 
-                                        compileErrors));
+                                        compileErrors, compiledClassCollector));
         assertTrue(compileErrors.getErrors().isEmpty());
+        byte[] byteCode = compiledClassCollector.getClassBytes().
+                                            get(classFileName);
+        assertNotNull(byteCode);
+        assertTrue(byteCode.length > 0);
+        
     }
 
     @Test
@@ -70,9 +77,15 @@ public class CodeCompilerTest {
         assertNotNull(fileContents);
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
+        CompiledClassCollector compiledClassCollector = 
+                new CompiledClassCollector();
         assertTrue(this.engine.compile(classFileName, fileContents, 
-                                        compileErrors));
+                                        compileErrors, compiledClassCollector));
         assertTrue(compileErrors.getErrors().isEmpty());
+        byte[] byteCode = compiledClassCollector.getClassBytes().
+                                            get(classFileName);
+        assertNotNull(byteCode);
+        assertTrue(byteCode.length > 0);
     }
     
     @Test
@@ -85,13 +98,15 @@ public class CodeCompilerTest {
         assertNotNull(fileContents);
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
+        CompiledClassCollector compiledClassCollector = 
+                new CompiledClassCollector();
         assertFalse(this.engine.compile(classFileName, fileContents, 
-                                        compileErrors));
+                                        compileErrors, compiledClassCollector));
         List<? extends CompileError> errors = compileErrors.getErrors();
         assertFalse(errors.isEmpty());
-        for (CompileError error : errors) {
-            System.out.println(error.getError());
-        }
+        byte[] byteCode = compiledClassCollector.getClassBytes().
+                                            get(classFileName);        
+        assertNull(byteCode);
         
     }
 }
