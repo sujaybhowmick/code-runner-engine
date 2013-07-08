@@ -24,12 +24,12 @@ public class CodeRunnerCallable implements Callable<CodeRunResult>{
     private String className;
     private String methodToInvoke;
     private Object[] params;
-    private Class[] paramTypes;
+    private Class<?>[] paramTypes;
     
     public CodeRunnerCallable(Map<String, byte[]> classBytes, 
-                              String className, String methodToInvoke,
-                              Class[] paramTypes,
-                              Object... params){
+                        final String className, final String methodToInvoke,
+                        Class<?>[] paramTypes,
+                        Object... params){
         this.classBytes = classBytes;
         this.className = className;
         this.methodToInvoke = methodToInvoke;
@@ -42,10 +42,11 @@ public class CodeRunnerCallable implements Callable<CodeRunResult>{
         }
     }
     
+    @Override
     public CodeRunResult call() throws Exception {
         log.info("Executing Call...");
         ClassLoader classLoader = new MapClassLoader(this.classBytes);
-        Class clazz = classLoader.loadClass(this.className);
+        Class<?> clazz = classLoader.loadClass(this.className);
         Method method = clazz.getDeclaredMethod(this.methodToInvoke, this.paramTypes);
         if(Modifier.isStatic(method.getModifiers())){
             return runStaticMethod(method);
