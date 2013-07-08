@@ -18,3 +18,6 @@ Maven test and Cobertura code coverage
 ## Running all goals
     [code-runner-engine]$ mvn clean test pmd:pmd cobertura:cobertura
 
+[![Build Status](https://buildhive.cloudbees.com/job/sujaybhowmick/job/code-runner-engine/com.codeengine$code-engine/badge/icon)](https://buildhive.cloudbees.com/job/sujaybhowmick/job/code-runner-engine/com.codeengine$code-engine/)
+
+
