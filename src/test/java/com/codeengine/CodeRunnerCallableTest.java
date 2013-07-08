@@ -65,6 +65,7 @@ public class CodeRunnerCallableTest {
         executor.shutdown();
         while(!executor.isTerminated()){}
         CodeRunResult codeRunResult = result.get();
+        assertTrue(codeRunResult.getResult());
         Integer actual = (Integer)codeRunResult.getOutput();
         System.out.println(actual);
         assertEquals(expResult, actual);
@@ -96,8 +97,8 @@ public class CodeRunnerCallableTest {
         
         while(!executor.isTerminated()){}
         
-        CodeRunResult codeRunResult = null;
-        codeRunResult = result.get();
+        CodeRunResult codeRunResult = result.get();;
+        assertTrue(codeRunResult.getResult()); 
         String actual = (String)codeRunResult.getOutput();
         System.out.println(actual);
         assertEquals(expResult, actual);

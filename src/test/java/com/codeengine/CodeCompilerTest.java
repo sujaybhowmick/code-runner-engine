@@ -45,6 +45,29 @@ public class CodeCompilerTest {
     public void tearDown() {
         this.engine = null;
     }
+    
+    @Test
+    public void testClassNameNullEmpty(){
+        final String javaFileName = "src/test/resources/TestSourceFile.txt";
+        final String classFileName = null;
+        try {
+            this.engine.compile(classFileName, null,null, null);
+            fail("should throw IllegalArgumentException");
+        }catch(IllegalArgumentException e){
+            assertTrue(
+                "IllegalArgumentException is excepted as className is null",
+                        true);
+        }
+        
+        try {
+            this.engine.compile("", null,null, null);
+            fail("should throw IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertTrue(
+                "IllegalArgumentException is excepted as className is empty",
+                        true);
+        }
+    }
 
     @Test
     public void testCompileClass() throws Exception {
