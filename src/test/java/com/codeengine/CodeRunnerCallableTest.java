@@ -43,7 +43,7 @@ public class CodeRunnerCallableTest {
      */
     @Test
     public void testCallForStaticMethod() throws Exception {
-        String javaFileName = "src/test/resources/TestSourceFile.java";
+        String javaFileName = "src/test/resources/TestSourceFile.txt";
         String classFileName = "TestSourceFile";
         String methodToInvoke = "add";
         String fileContents = FileUtils.fileRead(javaFileName);
@@ -72,7 +72,7 @@ public class CodeRunnerCallableTest {
     
     @Test
     public void testCallForInstanceMethod() throws Exception {
-        String javaFileName = "src/test/resources/TestSourceFile.java";
+        String javaFileName = "src/test/resources/TestSourceFile.txt";
         String classFileName = "TestSourceFile";
         String methodToInvoke = "reverseString";
         String fileContents = FileUtils.fileRead(javaFileName);
@@ -105,7 +105,7 @@ public class CodeRunnerCallableTest {
     
     @Test
     public void testCallInstanceMethodForError() throws Exception {
-        String javaFileName = "src/test/resources/TestSourceFile.java";
+        String javaFileName = "src/test/resources/TestSourceFile.txt";
         String classFileName = "TestSourceFile";
         String methodToInvoke = "errorMethod";
         String fileContents = FileUtils.fileRead(javaFileName);

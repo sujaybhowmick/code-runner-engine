@@ -49,7 +49,7 @@ public class CodeCompilerTest {
     @Test
     public void testCompileClass() throws Exception {
         assertNotNull(this.engine);
-        final String javaFileName = "src/test/resources/TestSourceFile.java";
+        final String javaFileName = "src/test/resources/TestSourceFile.txt";
         final String classFileName = "TestSourceFile";
         String fileContents = FileUtils.fileRead(javaFileName);
         assertNotNull(fileContents);
@@ -71,7 +71,7 @@ public class CodeCompilerTest {
     public void testCompileInterface() throws Exception {
         assertNotNull(this.engine);
         final String javaFileName = 
-                "src/test/resources/AnotherTestSourceFile.java";
+                "src/test/resources/AnotherTestSourceFile.txt";
         final String classFileName = "AnotherTestSourceFile";
         String fileContents = FileUtils.fileRead(javaFileName);
         assertNotNull(fileContents);
