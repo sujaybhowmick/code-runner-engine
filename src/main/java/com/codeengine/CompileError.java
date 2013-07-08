@@ -9,5 +9,5 @@ package com.codeengine;
  * @author sujay
  */
 public interface CompileError<S> {
-    public String getError();
+    String getError();
 }
