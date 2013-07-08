@@ -42,7 +42,7 @@ public class CodeCompilerImpl implements CodeCompiler {
     public Boolean compile(String className, String fileContent,
             CompileErrorCollector<CompileError> errors, 
             CompiledClassCollector compiledClassCollector) {
-        if (className == null) {
+        if (className == null || className.isEmpty()) {
             log.debug("className is null");
             throw new IllegalArgumentException("className cannot be null");
         }
