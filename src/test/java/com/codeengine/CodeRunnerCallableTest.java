@@ -16,9 +16,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 
 /**
  *
@@ -26,17 +28,25 @@ import static org.junit.Assert.*;
  */
 public class CodeRunnerCallableTest {
     private static final int NTHREADS = 10;
-    ExecutorService executor;
+    static ExecutorService executor;
     public CodeRunnerCallableTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception{
+        executor = Executors.newFixedThreadPool(NTHREADS);
     }
     
     @Before
     public void setUp() {
-        executor = Executors.newFixedThreadPool(NTHREADS);
     }
     
     @After
     public void tearDown() {
+    }
+    
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception{
         executor.shutdown();
     }
 
@@ -129,10 +139,10 @@ public class CodeRunnerCallableTest {
         try {
             // Blocking call
             codeRunResult = result.get();
-            //should not read the next statement
+            //should not reach the next statement
             fail("Test for error in instance method invocation failed");
         } catch (Exception e) {
-            // should throw an excpetion as expected
+            // should throw an StringIndexOutOfBoundsException as expected            
             assertTrue(
                     "should throw an java.lang.StringIndexOutOfBoundsException",
                     true);
