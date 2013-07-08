@@ -26,16 +26,18 @@ import static org.junit.Assert.*;
  */
 public class CodeRunnerCallableTest {
     private static final int NTHREADS = 10;
-    ExecutorService executor = Executors.newFixedThreadPool(NTHREADS);
+    ExecutorService executor;
     public CodeRunnerCallableTest() {
     }
     
     @Before
     public void setUp() {
+        executor = Executors.newFixedThreadPool(NTHREADS);
     }
     
     @After
     public void tearDown() {
+        executor.shutdown();
     }
 
     /**
@@ -62,8 +64,8 @@ public class CodeRunnerCallableTest {
         Integer expResult = 3;
         //CodeRunResult result = instance.call();
         Future<CodeRunResult> result = executor.submit(instance);
-        executor.shutdown();
-        while(!executor.isTerminated()){}
+        
+        //Blocking call
         CodeRunResult codeRunResult = result.get();
         assertTrue(codeRunResult.getResult());
         Integer actual = (Integer)codeRunResult.getOutput();
@@ -93,10 +95,8 @@ public class CodeRunnerCallableTest {
         String expResult = "yajuS";
         //CodeRunResult result = instance.call();
         Future<CodeRunResult> result = executor.submit(instance);
-        executor.shutdown();
         
-        while(!executor.isTerminated()){}
-        
+        //Blocking call
         CodeRunResult codeRunResult = result.get();;
         assertTrue(codeRunResult.getResult()); 
         String actual = (String)codeRunResult.getOutput();
@@ -126,12 +126,11 @@ public class CodeRunnerCallableTest {
         String expResult = "yajuS";
         //CodeRunResult result = instance.call();
         Future<CodeRunResult> result = executor.submit(instance);
-        executor.shutdown();
         
-        while(!executor.isTerminated()){}
         
         CodeRunResult codeRunResult = null;
         try {
+            // Blocking call
             codeRunResult = result.get();
             //should not read the next statement
             fail("Test for error in instance method invocation failed");
