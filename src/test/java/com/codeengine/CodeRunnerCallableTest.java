@@ -137,7 +137,9 @@ public class CodeRunnerCallableTest {
             fail("Test for error in instance method invocation failed");
         } catch (Exception e) {
             // should throw an excpetion as expected
-            assertTrue("should throw an excpetion java.lang.StringIndexOutOfBoundsException", true);
+            assertTrue(
+                    "should throw an java.lang.StringIndexOutOfBoundsException",
+                    true);
         }
     }
 }
