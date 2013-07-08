@@ -11,3 +11,10 @@ Maven test and Cobertura code coverage
 
 ## To run Maven Cobertura coverage
     [code-runner-engine]$ mvn clean cobertura:cobertura
+
+## To run Maven PMD rules
+    [code-runner-engine]$ mvn clean pmd:pmd
+
+## Running all goals
+    [code-runner-engine]$ mvn clean test pmd:pmd cobertura:cobertura
+
