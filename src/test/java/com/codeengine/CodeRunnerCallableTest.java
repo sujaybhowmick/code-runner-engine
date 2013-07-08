@@ -62,7 +62,6 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         classFileName, methodToInvoke, paramTypes, params);
         Integer expResult = 3;
-        //CodeRunResult result = instance.call();
         Future<CodeRunResult> result = executor.submit(instance);
         
         //Blocking call
@@ -93,7 +92,6 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         classFileName, methodToInvoke, paramTypes, params);
         String expResult = "yajuS";
-        //CodeRunResult result = instance.call();
         Future<CodeRunResult> result = executor.submit(instance);
         
         //Blocking call
@@ -124,9 +122,8 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         classFileName, methodToInvoke, paramTypes, params);
         String expResult = "yajuS";
-        //CodeRunResult result = instance.call();
-        Future<CodeRunResult> result = executor.submit(instance);
         
+        Future<CodeRunResult> result = executor.submit(instance);
         
         CodeRunResult codeRunResult = null;
         try {
