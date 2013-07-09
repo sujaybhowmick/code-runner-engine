@@ -67,16 +67,45 @@ public class CodeRunnerCallableTest {
         engine.compile(classFileName, fileContents, compileErrors, 
                         compiledClassCollector);
         Object[] params = {1, 2};
-        Class[] paramTypes = {int.class, int.class};
+        
         CodeRunnerCallable instance = 
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
-                        classFileName, methodToInvoke, paramTypes, params);
+                        classFileName, methodToInvoke, params);
         Integer expResult = 3;
         Future<CodeRunResult> result = executor.submit(instance);
         
         //Blocking call
         CodeRunResult codeRunResult = result.get();
         assertTrue(codeRunResult.getResult());
+        Integer actual = (Integer)codeRunResult.getOutput();
+        System.out.println(actual);
+        assertEquals(expResult, actual);
+    }
+    
+     @Test
+    public void testCallForInstanceMethodSubtract() throws Exception {
+        String javaFileName = "src/test/resources/TestSourceFile.txt";
+        String classFileName = "TestSourceFile";
+        String methodToInvoke = "subtract";
+        String fileContents = FileUtils.fileRead(javaFileName);
+        CodeCompiler engine = new CodeCompilerImpl();
+        CompileErrorCollector<CompileError> compileErrors = 
+                new CompileErrorCollector<CompileError>();
+        CompiledClassCollector compiledClassCollector = 
+                new CompiledClassCollector();
+        engine.compile(classFileName, fileContents, compileErrors, 
+                        compiledClassCollector);
+        Object[] params = {10, 2};
+        
+        CodeRunnerCallable instance = 
+                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+                        classFileName, methodToInvoke, params);
+        Integer expResult = 8;
+        Future<CodeRunResult> result = executor.submit(instance);
+        
+        //Blocking call
+        CodeRunResult codeRunResult = result.get();
+        assertTrue(codeRunResult.getResult()); 
         Integer actual = (Integer)codeRunResult.getOutput();
         System.out.println(actual);
         assertEquals(expResult, actual);
@@ -96,16 +125,15 @@ public class CodeRunnerCallableTest {
         engine.compile(classFileName, fileContents, compileErrors, 
                         compiledClassCollector);
         Object[] params = {"Sujay"};
-        Class[] paramTypes = {String.class};
         
         CodeRunnerCallable instance = 
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
-                        classFileName, methodToInvoke, paramTypes, params);
+                        classFileName, methodToInvoke, params);
         String expResult = "yajuS";
         Future<CodeRunResult> result = executor.submit(instance);
         
         //Blocking call
-        CodeRunResult codeRunResult = result.get();;
+        CodeRunResult codeRunResult = result.get();
         assertTrue(codeRunResult.getResult()); 
         String actual = (String)codeRunResult.getOutput();
         System.out.println(actual);
@@ -126,11 +154,10 @@ public class CodeRunnerCallableTest {
         engine.compile(classFileName, fileContents, compileErrors, 
                         compiledClassCollector);
         Object[] params = {"Sujay"};
-        Class[] paramTypes = {String.class};
         
         CodeRunnerCallable instance = 
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
-                        classFileName, methodToInvoke, paramTypes, params);
+                        classFileName, methodToInvoke, params);
         String expResult = "yajuS";
         
         Future<CodeRunResult> result = executor.submit(instance);
