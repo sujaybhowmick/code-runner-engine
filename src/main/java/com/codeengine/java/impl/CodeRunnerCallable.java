@@ -61,7 +61,6 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
                 Field field;
                 try{
                     field = this.paramTypes[i].getField("TYPE");
-                    log.info(field.getName());
                     if(Modifier.isStatic(field.getModifiers())){                        
                         this.paramTypes[i] = (Class<?>)field.get(null);
                         signatureChanged = true;
