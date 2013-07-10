@@ -17,14 +17,17 @@ public final class ConvertUtils {
 
     private ConvertUtils(){}
     
-    private static final Map<String, Method> CONVERTERS = new HashMap<String, Method>();
-    private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPER_MAP = new HashMap<Class<?>, Class<?>>();
+    private static final Map<String, Method> CONVERTERS = 
+                                    new HashMap<String, Method>();
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPER_MAP = 
+                                            new HashMap<Class<?>, Class<?>>();
     
     static {
         Method[] methods = ConvertUtils.class.getDeclaredMethods();
         for (Method method : methods) {
             if (method.getParameterTypes().length == 1) {
-                // Converter should accept 1 argument. This skips the convert() method.
+                /* Converter should accept 1 argument. 
+                This skips the convert() method*/
                 CONVERTERS.put(method.getParameterTypes()[0].getName() + "_"
                     + method.getReturnType().getName(), method);
             }
@@ -161,7 +164,6 @@ public final class ConvertUtils {
             convertedClass = PRIMITIVE_WRAPPER_MAP.get(cls);
         }
         return convertedClass;
-            
     }
     
 }
