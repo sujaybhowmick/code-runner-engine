@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author sujay
  */
-public class CodeCompilerImpl implements CodeCompiler {
+public final class CodeCompilerImpl implements CodeCompiler {
 
     final Logger log = LoggerFactory.getLogger(CodeCompilerImpl.class);
     
@@ -39,6 +39,7 @@ public class CodeCompilerImpl implements CodeCompiler {
      * @param fileContent - The code content of the class
      * @return
      */
+    @Override
     public Boolean compile(String className, String fileContent,
             CompileErrorCollector<CompileError> errors, 
             CompiledClassCollector compiledClassCollector) {
@@ -89,6 +90,7 @@ public class CodeCompilerImpl implements CodeCompiler {
                 log.info(diagnostic.getKind() + ": "
                         + diagnostic.getMessage(null));
                 CompileError error = new CompileError<String>() {
+                    @Override
                     public String getError() {
                         return diagnostic.getKind() + ": "
                                 + diagnostic.getMessage(null);

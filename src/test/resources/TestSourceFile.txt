@@ -12,6 +12,10 @@ public class TestSourceFile {
         return a + b;
     }
 
+    public static Integer add2(int a, int b){
+        return a + b;
+    }
+
     public Integer subtract(Integer c, Integer d){
         return c - d;
     }

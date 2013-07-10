@@ -77,10 +77,41 @@ public class CodeRunnerCallableTest {
         //Blocking call
         CodeRunResult codeRunResult = result.get();
         assertTrue(codeRunResult.getResult());
-        Integer actual = (Integer)codeRunResult.getOutput();
+        Integer actual = codeRunResult.getOutput();
         System.out.println(actual);
         assertEquals(expResult, actual);
     }
+    
+    @Test
+    public void testCallForStaticMethodWrapperClass() throws Exception {
+        String javaFileName = "src/test/resources/TestSourceFile.txt";
+        String classFileName = "TestSourceFile";
+        String methodToInvoke = "add2";
+        String fileContents = FileUtils.fileRead(javaFileName);
+        CodeCompiler engine = new CodeCompilerImpl();
+        CompileErrorCollector<CompileError> compileErrors = 
+                new CompileErrorCollector<CompileError>();
+        CompiledClassCollector compiledClassCollector = 
+                new CompiledClassCollector();
+        engine.compile(classFileName, fileContents, compileErrors, 
+                        compiledClassCollector);
+        Object[] params = {2, 3};
+        
+        CodeRunnerCallable instance = 
+                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+                        classFileName, methodToInvoke, params);
+        Integer expResult = 5;
+        Future<CodeRunResult> result = executor.submit(instance);
+        
+        //Blocking call
+        CodeRunResult codeRunResult = result.get();
+        assertTrue(codeRunResult.getResult());
+        Integer actual = codeRunResult.getOutput();
+        System.out.println(actual);
+        assertEquals(expResult, actual);
+    }
+    
+    
     
      @Test
     public void testCallForInstanceMethodSubtract() throws Exception {
@@ -106,7 +137,7 @@ public class CodeRunnerCallableTest {
         //Blocking call
         CodeRunResult codeRunResult = result.get();
         assertTrue(codeRunResult.getResult()); 
-        Integer actual = (Integer)codeRunResult.getOutput();
+        Integer actual = codeRunResult.getOutput();
         System.out.println(actual);
         assertEquals(expResult, actual);
     }
@@ -135,7 +166,7 @@ public class CodeRunnerCallableTest {
         //Blocking call
         CodeRunResult codeRunResult = result.get();
         assertTrue(codeRunResult.getResult()); 
-        String actual = (String)codeRunResult.getOutput();
+        String actual = codeRunResult.getOutput();
         System.out.println(actual);
         assertEquals(expResult, actual);
     }
@@ -174,5 +205,64 @@ public class CodeRunnerCallableTest {
                     "should throw an java.lang.StringIndexOutOfBoundsException",
                     true);
         }
+    }
+    
+    
+    @Test
+    public void testCallForPackageStaticMethod() throws Exception {
+        String javaFileName = "src/test/resources/PackageSourceTestFile.txt";
+        String classFileName = "test.resources.PackageSourceTestFile";
+        String methodToInvoke = "add";
+        String fileContents = FileUtils.fileRead(javaFileName);
+        CodeCompiler engine = new CodeCompilerImpl();
+        CompileErrorCollector<CompileError> compileErrors = 
+                new CompileErrorCollector<CompileError>();
+        CompiledClassCollector compiledClassCollector = 
+                new CompiledClassCollector();
+        engine.compile(classFileName, fileContents, compileErrors, 
+                        compiledClassCollector);
+        Object[] params = {1, 2};
+        
+        CodeRunnerCallable instance = 
+                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+                        classFileName, methodToInvoke, params);
+        Integer expResult = 3;
+        Future<CodeRunResult> result = executor.submit(instance);
+        
+        //Blocking call
+        CodeRunResult codeRunResult = result.get();
+        assertTrue(codeRunResult.getResult());
+        Integer actual = codeRunResult.getOutput();
+        System.out.println(actual);
+        assertEquals(expResult, actual);
+    }
+    
+    @Test
+    public void testCallForPackageInstanceMethod() throws Exception {
+        String javaFileName = "src/test/resources/PackageSourceTestFile.txt";
+        String classFileName = "test.resources.PackageSourceTestFile";
+        String methodToInvoke = "reverseString";
+        String fileContents = FileUtils.fileRead(javaFileName);
+        CodeCompiler engine = new CodeCompilerImpl();
+        CompileErrorCollector<CompileError> compileErrors = 
+                new CompileErrorCollector<CompileError>();
+        CompiledClassCollector compiledClassCollector = 
+                new CompiledClassCollector();
+        engine.compile(classFileName, fileContents, compileErrors, 
+                        compiledClassCollector);
+        Object[] params = {"Sujay"};
+        
+        CodeRunnerCallable instance = 
+                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+                        classFileName, methodToInvoke, params);
+        String expResult = "yajuS";
+        Future<CodeRunResult> result = executor.submit(instance);
+        
+        //Blocking call
+        CodeRunResult codeRunResult = result.get();
+        assertTrue(codeRunResult.getResult()); 
+        String actual = codeRunResult.getOutput();
+        System.out.println(actual);
+        assertEquals(expResult, actual);
     }
 }

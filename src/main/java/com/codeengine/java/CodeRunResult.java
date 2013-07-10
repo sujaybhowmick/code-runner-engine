@@ -4,6 +4,8 @@
  */
 package com.codeengine.java;
 
+import com.codeengine.utils.ConvertUtils;
+
 /**
  *
  * @author sujay
@@ -13,16 +15,27 @@ public class CodeRunResult {
     
     private Object output;
     
-    public CodeRunResult(final Boolean result, final Object output){
+    private Class<?> returnType;
+    
+    private CodeRunResult(final Boolean result, final Object output, 
+                          final Class<?> returnType){
         this.result = result;
         this.output = output;
+        this.returnType = returnType;
+    }
+    
+    public static CodeRunResult create(final Boolean result, final Object output, 
+                        final Class<?> returnType){
+        return new CodeRunResult(result, output, returnType);
     }
     
     public Boolean getResult(){
         return this.result;
     }
     
-    public Object getOutput(){
-        return this.output;
+    
+    
+    public <T> T getOutput(){
+        return ConvertUtils.convert(this.output, this.returnType);
     }
 }

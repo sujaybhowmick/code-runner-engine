@@ -61,7 +61,6 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
                 Field field;
                 try{
                     field = this.paramTypes[i].getField("TYPE");
-                    log.info(field.getName());
                     if(Modifier.isStatic(field.getModifiers())){                        
                         this.paramTypes[i] = (Class<?>)field.get(null);
                         signatureChanged = true;
@@ -87,14 +86,15 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
                 return runInstanceMethod(method, instance);
             }
         }
-        return new CodeRunResult(Boolean.FALSE, null);
+        return CodeRunResult.create(Boolean.FALSE, null, null);
     }
     
     private CodeRunResult runStaticMethod(Method method){
         log.info("Executing static method...");
         try {
             Object result = method.invoke(null, this.params);
-            return new CodeRunResult(Boolean.TRUE, result);
+            return CodeRunResult.create(Boolean.TRUE, result, 
+                                            method.getReturnType());
         } catch (IllegalAccessException iae) {
             throw new RuntimeException(iae);
         } catch (InvocationTargetException ite) {
@@ -106,26 +106,13 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
         log.info("Executing instance method...");
         try {
             Object result = method.invoke(instance, this.params);
-            return new CodeRunResult(Boolean.TRUE, result);
+            return CodeRunResult.create(Boolean.TRUE, result, 
+                                            method.getReturnType());
         } catch (IllegalAccessException iae) {
             throw new RuntimeException(iae);
         } catch (InvocationTargetException ite) {
             throw new RuntimeException(ite);
         }
-    }
-
-    /**
-     * @param classes the classes to set
-     */
-    public void setClassBytes(Map<String, byte[]> classBytes) {
-        this.classBytes = classBytes;
-    }
-
-    /**
-     * @param runClass the runClass to set
-     */
-    public void setClassName(String className) {
-        this.className = className;
     }
 
     private void retrieveParamTypes(Object[] params) {
