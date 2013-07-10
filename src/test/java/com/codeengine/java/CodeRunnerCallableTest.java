@@ -106,9 +106,7 @@ public class CodeRunnerCallableTest {
         //Blocking call
         CodeRunResult codeRunResult = result.get();
         assertTrue(codeRunResult.getResult());
-        Integer actual = codeRunResult.getOutput();
-        System.out.println(actual);
-        assertEquals(expResult, actual);
+        assertEquals(expResult, codeRunResult.getOutput());
     }
     
     
@@ -136,10 +134,8 @@ public class CodeRunnerCallableTest {
         
         //Blocking call
         CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult()); 
-        Integer actual = codeRunResult.getOutput();
-        System.out.println(actual);
-        assertEquals(expResult, actual);
+        assertTrue(codeRunResult.getResult());
+        assertEquals(expResult, codeRunResult.getOutput());
     }
     
     @Test
@@ -165,10 +161,8 @@ public class CodeRunnerCallableTest {
         
         //Blocking call
         CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult()); 
-        String actual = codeRunResult.getOutput();
-        System.out.println(actual);
-        assertEquals(expResult, actual);
+        assertTrue(codeRunResult.getResult());
+        assertEquals(expResult, codeRunResult.getOutput());
     }
     
     @Test
@@ -232,9 +226,7 @@ public class CodeRunnerCallableTest {
         //Blocking call
         CodeRunResult codeRunResult = result.get();
         assertTrue(codeRunResult.getResult());
-        Integer actual = codeRunResult.getOutput();
-        System.out.println(actual);
-        assertEquals(expResult, actual);
+        assertEquals(expResult, codeRunResult.getOutput());
     }
     
     @Test
@@ -260,9 +252,7 @@ public class CodeRunnerCallableTest {
         
         //Blocking call
         CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult()); 
-        String actual = codeRunResult.getOutput();
-        System.out.println(actual);
-        assertEquals(expResult, actual);
+        assertTrue(codeRunResult.getResult());
+        assertEquals(expResult, codeRunResult.getOutput());
     }
 }
