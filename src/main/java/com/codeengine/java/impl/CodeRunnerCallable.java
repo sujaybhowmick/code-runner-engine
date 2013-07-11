@@ -22,16 +22,16 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
     final Logger log = LoggerFactory.getLogger(CodeRunnerCallable.class);
     
     private Map<String, byte[]> classBytes;
-    private String className;
+    private String fqcn;
     private String methodToInvoke;
     private Object[] params;
     private Class<?>[] paramTypes;
     
     public CodeRunnerCallable(Map<String, byte[]> classBytes, 
-                        final String className, final String methodToInvoke,
+                        final String fqcn, final String methodToInvoke,
                         Object... params){
         this.classBytes = classBytes;
-        this.className = className;
+        this.fqcn = fqcn;
         this.methodToInvoke = methodToInvoke;
         if(params != null && params.length > 0){
             this.params = params;
@@ -46,7 +46,7 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
     public CodeRunResult call() throws Exception {
         log.info("Executing Call...");
         ClassLoader classLoader = new MapClassLoader(this.classBytes);
-        Class<?> clazz = classLoader.loadClass(this.className);
+        Class<?> clazz = classLoader.loadClass(this.fqcn);
         Method method = null;
         
         try {

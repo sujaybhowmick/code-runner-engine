@@ -16,4 +16,6 @@ public interface CompiledClassListener {
     
     Map<String, byte[]> getClassBytes();
     
+    void add(ByteArrayJavaClass byteArrayJavaClass);
+    
 }

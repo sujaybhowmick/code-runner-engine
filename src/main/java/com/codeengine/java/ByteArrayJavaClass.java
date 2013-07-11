@@ -17,10 +17,12 @@ import javax.tools.SimpleJavaFileObject;
 public class ByteArrayJavaClass extends SimpleJavaFileObject{
     
     private ByteArrayOutputStream stream;
+    private String className;
     
     public ByteArrayJavaClass(final String name){
         super(URI.create("bytes:///" + name), Kind.CLASS);
         this.stream = new ByteArrayOutputStream();
+        this.className = name;
     }
 
     @Override
@@ -30,5 +32,12 @@ public class ByteArrayJavaClass extends SimpleJavaFileObject{
     
     public byte[] getBytes(){
         return this.stream.toByteArray();
+    }
+
+    /**
+     * @return the className
+     */
+    public String getClassName() {
+        return className;
     }
 }

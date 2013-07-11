@@ -7,6 +7,7 @@ package com.codeengine.java.impl;
 import com.codeengine.java.ByteArrayJavaClass;
 import com.codeengine.java.CodeCompiler;
 import com.codeengine.java.CompileError;
+import com.codeengine.java.CustomForwardingFileManager;
 import com.codeengine.java.StringBuilderJavaSource;
 import java.io.IOException;
 import java.util.Arrays;
@@ -49,27 +50,17 @@ public final class CodeCompilerImpl implements CodeCompiler {
         }
         log.info("Compiling class [" + className + "]");
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        final Map<String, ByteArrayJavaClass> byteArrayJavaClasses = new HashMap<String, ByteArrayJavaClass>();
+        
         DiagnosticCollector<JavaFileObject> diagnostics =
                 new DiagnosticCollector<JavaFileObject>();
 
         JavaFileManager fileManager = compiler.getStandardFileManager(
                 diagnostics, null, null);
 
-        fileManager = 
-                new ForwardingJavaFileManager<JavaFileManager>(fileManager) {
-            public JavaFileObject getJavaFileForOutput(Location location, 
-                    final String className, JavaFileObject.Kind kind, 
-                    FileObject sibling){
-                ByteArrayJavaClass classFileObject = 
-                        new ByteArrayJavaClass(className);
-                
-                //classFileObjects.add(classFileObject);
-                
-                byteArrayJavaClasses.put(className, classFileObject);
-                return classFileObject;
-            }
-        };
+        CustomForwardingFileManager forwardingFileManager = new
+                                      CustomForwardingFileManager(fileManager);
+        fileManager = forwardingFileManager;
+        
         JavaFileObject javaSource = buildSource(className, fileContent);
 
         JavaCompiler.CompilationTask compileTask = compiler.getTask(null,
@@ -83,7 +74,9 @@ public final class CodeCompilerImpl implements CodeCompiler {
         }
         if(result){
             log.info("Compile Successful, collecting byteCode");
-            compiledClassCollector.put(className, byteArrayJavaClasses.get(className).getBytes());
+            ByteArrayJavaClass byteArrayJavaClass = 
+                                forwardingFileManager.getByteArrayJavaClass();
+            compiledClassCollector.add(byteArrayJavaClass);
         }else {
             for (final Diagnostic<? extends JavaFileObject> diagnostic
                     : diagnostics.getDiagnostics()) {

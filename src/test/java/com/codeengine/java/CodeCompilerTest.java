@@ -86,7 +86,7 @@ public class CodeCompilerTest {
                                         compileErrors, compiledClassCollector));
         assertTrue(compileErrors.getErrors().isEmpty());
         byte[] byteCode = compiledClassCollector.getClassBytes().
-                                            get(classFileName);
+                                get(compiledClassCollector.getFQCN());
         assertNotNull(byteCode);
         assertTrue(byteCode.length > 0);
         
@@ -108,7 +108,7 @@ public class CodeCompilerTest {
                                         compileErrors, compiledClassCollector));
         assertTrue(compileErrors.getErrors().isEmpty());
         byte[] byteCode = compiledClassCollector.getClassBytes().
-                                            get(classFileName);
+                            get(compiledClassCollector.getFQCN());
         assertNotNull(byteCode);
         assertTrue(byteCode.length > 0);
     }
@@ -130,7 +130,7 @@ public class CodeCompilerTest {
         List<? extends CompileError> errors = compileErrors.getErrors();
         assertFalse(errors.isEmpty());
         byte[] byteCode = compiledClassCollector.getClassBytes().
-                                            get(classFileName);        
+                                    get(compiledClassCollector.getFQCN());        
         assertNull(byteCode);
         
     }
