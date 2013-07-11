@@ -12,13 +12,13 @@ import java.util.Map;
  */
 public class MapClassLoader extends ClassLoader {
 
-    private Map<String, byte[]> classes;
+    private final Map<String, byte[]> classes;
 
     private MapClassLoader(Map<String, byte[]> classes) {
         this.classes = classes;
     }
     
-    public static MapClassLoader newInstance(Map<String, byte[]> classes){
+    public static MapClassLoader newInstance(final Map<String, byte[]> classes){
         return new MapClassLoader(classes);
     }
 
