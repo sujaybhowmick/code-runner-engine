@@ -78,7 +78,7 @@ public final class CodeCompilerImpl implements CodeCompiler {
                     : diagnostics.getDiagnostics()) {
                 log.info(diagnostic.getKind() + ": "
                         + diagnostic.getMessage(null));
-                CompileError error = CompileErrorImpl.create(diagnostic);
+                CompileError error = CompileErrorImpl.newInstance(diagnostic);
                 errors.reportError(error);
             }
         }

@@ -19,7 +19,7 @@ public class CompileErrorImpl implements CompileError<String> {
         this.diagnostic = diagnostic;
     }
     
-    public static CompileError<String> create(
+    public static CompileError<String> newInstance(
             Diagnostic<? extends JavaFileObject> diagnostic){
         return new CompileErrorImpl(diagnostic);
     }

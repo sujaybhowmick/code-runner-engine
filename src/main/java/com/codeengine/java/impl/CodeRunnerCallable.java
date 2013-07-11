@@ -45,7 +45,7 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
     @Override
     public CodeRunResult call() throws Exception {
         log.info("Executing Call...");
-        ClassLoader classLoader = new MapClassLoader(this.classBytes);
+        ClassLoader classLoader = MapClassLoader.newInstance(this.classBytes);
         Class<?> clazz = classLoader.loadClass(this.fqcn);
         Method method = null;
         
