@@ -204,7 +204,7 @@ public class CodeRunnerCallableTest {
     @Test
     public void testCallForPackageStaticMethod() throws Exception {
         String javaFileName = "src/test/resources/PackageSourceTestFile.txt";
-        String classFileName = "test.resources.PackageSourceTestFile";
+        String classFileName = "PackageSourceTestFile";
         String methodToInvoke = "add";
         String fileContents = FileUtils.fileRead(javaFileName);
         CodeCompiler engine = new CodeCompilerImpl();

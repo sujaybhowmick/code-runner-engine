@@ -82,13 +82,7 @@ public final class CodeCompilerImpl implements CodeCompiler {
                     : diagnostics.getDiagnostics()) {
                 log.info(diagnostic.getKind() + ": "
                         + diagnostic.getMessage(null));
-                CompileError error = new CompileError<String>() {
-                    @Override
-                    public String getError() {
-                        return diagnostic.getKind() + ": "
-                                + diagnostic.getMessage(null);
-                    }
-                };
+                CompileError error = CompileErrorImpl.create(diagnostic);
                 errors.reportError(error);
             }
         }
