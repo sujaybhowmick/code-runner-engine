@@ -19,6 +19,7 @@ public class CompileErrorCollector<S> implements CompileErrorListener<S>{
         Collections.synchronizedList(
             new ArrayList<CompileError<? extends S>>());
     
+    @Override
     public void reportError(CompileError<? extends S> error) {
         if(error != null){
             errors.add(error);

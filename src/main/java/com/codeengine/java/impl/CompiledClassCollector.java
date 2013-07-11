@@ -18,14 +18,18 @@ public class CompiledClassCollector implements CompiledClassListener{
     Map<String, byte[]> classBytes = 
             Collections.synchronizedMap(new HashMap<String, byte[]>());
     private ByteArrayJavaClass byteArrayJavaClass;
+    
+    @Override
     public void put(String className, byte[] bytes) {
         this.classBytes.put(className, bytes);
     }
 
+    @Override
     public Map<String, byte[]> getClassBytes() {
         return Collections.unmodifiableMap(this.classBytes);
     }
     
+    @Override
     public void add(ByteArrayJavaClass byteArrayJavaClass){
         this.byteArrayJavaClass = byteArrayJavaClass;
         put(byteArrayJavaClass.getClassName(), byteArrayJavaClass.getBytes());
