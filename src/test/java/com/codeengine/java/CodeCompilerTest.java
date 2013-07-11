@@ -4,13 +4,10 @@
  */
 package com.codeengine.java;
 
-import com.codeengine.java.CodeCompiler;
-import com.codeengine.java.CompileError;
 import com.codeengine.java.impl.CodeCompilerImpl;
 import com.codeengine.java.impl.CompileErrorCollector;
 import com.codeengine.java.impl.CompiledClassCollector;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
