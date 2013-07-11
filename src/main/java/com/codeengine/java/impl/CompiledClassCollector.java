@@ -9,7 +9,6 @@ import com.codeengine.java.CompiledClassListener;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import javax.tools.SimpleJavaFileObject;
 
 /**
  *
