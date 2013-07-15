@@ -8,6 +8,7 @@ import com.codeengine.java.impl.CodeCompilerImpl;
 import com.codeengine.java.impl.CodeRunnerCallable;
 import com.codeengine.java.impl.CompileErrorCollector;
 import com.codeengine.java.impl.CompiledClassCollector;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -61,8 +62,11 @@ public class CodeRunnerCallableTest {
                 new CompileErrorCollector<CompileError>();
         CompiledClassCollector compiledClassCollector = 
                 new CompiledClassCollector();
-        engine.compile(classFileName, fileContents, compileErrors, 
-                        compiledClassCollector);
+        Boolean compileResult = engine.compile(classFileName, fileContents, 
+                                compileErrors, compiledClassCollector);
+        // No compiler Errors
+        assertTrue(compileResult);
+        
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {1, 2};
         
@@ -80,6 +84,31 @@ public class CodeRunnerCallableTest {
     }
     
     @Test
+    public void testCompileFailure() throws Exception {
+        CodeCompiler engine = new CodeCompilerImpl();
+        final String javaFileName = 
+                "src/test/resources/CompileErrorTestFile.txt";
+        final String classFileName = "CompileErrorTestFile";
+        String fileContents = FileUtils.fileRead(javaFileName);
+        assertNotNull(fileContents);
+        CompileErrorCollector<CompileError> compileErrors = 
+                new CompileErrorCollector<CompileError>();
+        CompiledClassCollector compiledClassCollector = 
+                new CompiledClassCollector();
+        Boolean compileResult = engine.compile(classFileName, fileContents, 
+                                compileErrors, compiledClassCollector);
+        // Compile failed
+        assertFalse(compileResult);
+        
+        List<? extends CompileError> errors = compileErrors.getErrors();
+        assertFalse(errors.isEmpty());
+        byte[] byteCode = compiledClassCollector.getClassBytes().
+                                    get(compiledClassCollector.getFQCN());        
+        assertNull(byteCode);
+        
+    }
+    
+    @Test
     public void testCallForStaticMethodWrapperClass() throws Exception {
         String javaFileName = "src/test/resources/TestSourceFile.txt";
         String classFileName = "TestSourceFile";
@@ -90,8 +119,11 @@ public class CodeRunnerCallableTest {
                 new CompileErrorCollector<CompileError>();
         CompiledClassCollector compiledClassCollector = 
                 new CompiledClassCollector();
-        engine.compile(classFileName, fileContents, compileErrors, 
-                        compiledClassCollector);
+        Boolean compileResult = engine.compile(classFileName, fileContents, 
+                            compileErrors, compiledClassCollector);
+        // No compiler Errors
+        assertTrue(compileResult);
+        
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {2, 3};
         
@@ -120,8 +152,12 @@ public class CodeRunnerCallableTest {
                 new CompileErrorCollector<CompileError>();
         CompiledClassCollector compiledClassCollector = 
                 new CompiledClassCollector();
-        engine.compile(classFileName, fileContents, compileErrors, 
-                        compiledClassCollector);
+        
+        Boolean compileResult = engine.compile(classFileName, fileContents, 
+                compileErrors, compiledClassCollector);
+        // No compiler Errors
+        assertTrue(compileResult);
+        
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {10, 2};
         
@@ -148,8 +184,10 @@ public class CodeRunnerCallableTest {
                 new CompileErrorCollector<CompileError>();
         CompiledClassCollector compiledClassCollector = 
                 new CompiledClassCollector();
-        engine.compile(classFileName, fileContents, compileErrors, 
-                        compiledClassCollector);
+        Boolean compileResult = engine.compile(classFileName, fileContents, 
+                compileErrors, compiledClassCollector);
+        // No compiler Errors
+        assertTrue(compileResult);
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {"Sujay"};
         
@@ -176,8 +214,11 @@ public class CodeRunnerCallableTest {
                 new CompileErrorCollector<CompileError>();
         CompiledClassCollector compiledClassCollector = 
                 new CompiledClassCollector();
-        engine.compile(classFileName, fileContents, compileErrors, 
-                        compiledClassCollector);
+        Boolean compileResult = engine.compile(classFileName, fileContents, 
+                compileErrors, compiledClassCollector);
+        // No compiler Errors
+        assertTrue(compileResult);
+        
         Object[] params = {"Sujay"};
         String fqcn = compiledClassCollector.getFQCN();
         CodeRunnerCallable instance = 
@@ -212,8 +253,10 @@ public class CodeRunnerCallableTest {
                 new CompileErrorCollector<CompileError>();
         CompiledClassCollector compiledClassCollector = 
                 new CompiledClassCollector();
-        engine.compile(classFileName, fileContents, compileErrors, 
-                        compiledClassCollector);
+        Boolean compileResult = engine.compile(classFileName, fileContents, 
+                compileErrors, compiledClassCollector);
+        // No compiler Errors
+        assertTrue(compileResult);
         
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {1, 2};
@@ -241,8 +284,11 @@ public class CodeRunnerCallableTest {
                 new CompileErrorCollector<CompileError>();
         CompiledClassCollector compiledClassCollector = 
                 new CompiledClassCollector();
-        engine.compile(classFileName, fileContents, compileErrors, 
-                        compiledClassCollector);
+        Boolean compileResult = engine.compile(classFileName, fileContents, 
+                compileErrors, compiledClassCollector);
+        // No compiler Errors
+        assertTrue(compileResult);
+        
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {"Sujay"};
         CodeRunnerCallable instance = 
