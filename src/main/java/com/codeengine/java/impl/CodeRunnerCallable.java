@@ -4,7 +4,6 @@
  */
 package com.codeengine.java.impl;
 
-import com.codeengine.java.CodeRunResult;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,7 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author sujay
  */
-public final class CodeRunnerCallable implements Callable<CodeRunResult>{
+public final class CodeRunnerCallable implements Callable<RunResultCollector>{
     final Logger log = LoggerFactory.getLogger(CodeRunnerCallable.class);
     
     private Map<String, byte[]> classBytes;
@@ -43,7 +42,7 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
     }
     
     @Override
-    public CodeRunResult call() throws Exception {
+    public RunResultCollector call() throws Exception {
         log.info("Executing Call...");
         ClassLoader classLoader = MapClassLoader.newInstance(this.classBytes);
         Class<?> clazz = classLoader.loadClass(this.fqcn);
@@ -77,41 +76,40 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
             }
             
         }
-        
+        RunResultCollector resultCollector = new RunResultCollector();
         if(method != null){
             if(Modifier.isStatic(method.getModifiers())){
-                return runStaticMethod(method);
+                resultCollector.report(runStaticMethod(method));
             }else {
                 Object instance = clazz.newInstance();
-                return runInstanceMethod(method, instance);
+                resultCollector.report(runInstanceMethod(method, instance));
             }
+        }else {
+            resultCollector.report(CodeRunResultImpl.newInstance(Boolean.FALSE, 
+                                                null, null));
         }
-        return CodeRunResult.create(Boolean.FALSE, null, null);
+        return resultCollector;
     }
     
-    private CodeRunResult runStaticMethod(Method method){
+    private CodeRunResultImpl runStaticMethod(Method method){
         log.info("Executing static method...");
         try {
             Object result = method.invoke(null, this.params);
-            return CodeRunResult.create(Boolean.TRUE, result, 
+            return CodeRunResultImpl.newInstance(Boolean.TRUE, result, 
                                             method.getReturnType());
-        } catch (IllegalAccessException iae) {
-            throw new RuntimeException(iae);
-        } catch (InvocationTargetException ite) {
-            throw new RuntimeException(ite);
+        }catch(Exception e){
+            return exceptionToResult(e);
         }
     }
     
-    private CodeRunResult runInstanceMethod(Method method, Object instance){
+    private CodeRunResultImpl runInstanceMethod(Method method, Object instance){
         log.info("Executing instance method...");
         try {
             Object result = method.invoke(instance, this.params);
-            return CodeRunResult.create(Boolean.TRUE, result, 
+            return CodeRunResultImpl.newInstance(Boolean.TRUE, result, 
                                             method.getReturnType());
-        } catch (IllegalAccessException iae) {
-            throw new RuntimeException(iae);
-        } catch (InvocationTargetException ite) {
-            throw new RuntimeException(ite);
+        }catch(Exception e){
+            return exceptionToResult(e);
         }
     }
 
@@ -119,5 +117,9 @@ public final class CodeRunnerCallable implements Callable<CodeRunResult>{
          for (int i = 0; i < params.length; i++) {
             paramTypes[i] = params[i].getClass();
         }
+    }
+    
+    private CodeRunResultImpl exceptionToResult(final Exception re){
+        return CodeRunResultImpl.newInstance(Boolean.FALSE, re, re.getClass());
     }
 }

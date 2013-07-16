@@ -5,6 +5,7 @@
 package com.codeengine.java.impl;
 
 import com.codeengine.java.CompileError;
+import com.codeengine.java.Result;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
@@ -19,7 +20,7 @@ public class CompileErrorImpl implements CompileError<String> {
         this.diagnostic = diagnostic;
     }
     
-    public static CompileError<String> newInstance(
+    public static Result<String> newInstance(
             Diagnostic<? extends JavaFileObject> diagnostic){
         return new CompileErrorImpl(diagnostic);
     }
@@ -28,5 +29,10 @@ public class CompileErrorImpl implements CompileError<String> {
     public String getError() {
         return this.diagnostic.getKind() + ": "
                 + this.diagnostic.getMessage(null);
+    }
+
+    @Override
+    public Boolean isSuccess() {
+        return false;
     }
 }

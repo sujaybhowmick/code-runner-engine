@@ -9,5 +9,5 @@ package com.codeengine.java;
  * @author sujay
  */
 public interface CompileErrorListener<S> {
-    void reportError(CompileError<? extends S> error);
+    void reportError(Result<? extends S> error);
 }

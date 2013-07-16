@@ -6,6 +6,8 @@ package com.codeengine.java.impl;
 
 import com.codeengine.java.CompileError;
 import com.codeengine.java.CompileErrorListener;
+import com.codeengine.java.Result;
+import com.codeengine.java.ResultListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,19 +16,19 @@ import java.util.List;
  *
  * @author sujay
  */
-public class CompileErrorCollector<S> implements CompileErrorListener<S>{
-    List<CompileError<? extends S>> errors = 
+public class CompileErrorCollector<S> implements ResultListener<S>{
+    List<Result<? extends S>> errors = 
         Collections.synchronizedList(
-            new ArrayList<CompileError<? extends S>>());
+            new ArrayList<Result<? extends S>>());
     
     @Override
-    public void reportError(CompileError<? extends S> error) {
+    public void report(Result<? extends S> error) {
         if(error != null){
             errors.add(error);
         }
     }
     
-    public List<CompileError<? extends S>> getErrors(){
+    public List<Result<? extends S>> getErrors(){
         return Collections.unmodifiableList(this.errors);
     }
     

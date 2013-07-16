@@ -8,6 +8,7 @@ import com.codeengine.java.ByteArrayJavaClass;
 import com.codeengine.java.CodeCompiler;
 import com.codeengine.java.CompileError;
 import com.codeengine.java.CustomForwardingFileManager;
+import com.codeengine.java.Result;
 import com.codeengine.java.StringBuilderJavaSource;
 import java.io.IOException;
 import java.util.Arrays;
@@ -78,8 +79,8 @@ public final class CodeCompilerImpl implements CodeCompiler {
                     : diagnostics.getDiagnostics()) {
                 log.info(diagnostic.getKind() + ": "
                         + diagnostic.getMessage(null));
-                CompileError error = CompileErrorImpl.newInstance(diagnostic);
-                errors.reportError(error);
+                Result error = CompileErrorImpl.newInstance(diagnostic);
+                errors.report(error);
             }
         }
         return result;

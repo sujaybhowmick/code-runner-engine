@@ -8,6 +8,6 @@ package com.codeengine.java;
  *
  * @author sujay
  */
-public interface CompileError<S> {
+public interface CompileError<S> extends Result{
     String getError();
 }
