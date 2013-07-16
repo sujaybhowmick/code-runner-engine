@@ -77,10 +77,12 @@ public final class ConvertUtils {
         }
     }
     
-    // Converters ---------------------------------------------------------------------------------
+    // Converters --------------------------------------------------------------
+    
 
     /**
-     * Converts Integer to Boolean. If integer value is 0, then return FALSE, else return TRUE.
+     * Converts Integer to Boolean. If integer value is 0, then return FALSE, 
+     * else return TRUE.
      * @param value The Integer to be converted.
      * @return The converted Boolean value.
      */
@@ -89,7 +91,8 @@ public final class ConvertUtils {
     }
 
     /**
-     * Converts Boolean to Integer. If boolean value is TRUE, then return 1, else return 0.
+     * Converts Boolean to Integer. If boolean value is TRUE, then return 1, 
+     * else return 0.
      * @param value The Boolean to be converted.
      * @return The converted Integer value.
      */
