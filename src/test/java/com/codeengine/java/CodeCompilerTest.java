@@ -124,7 +124,7 @@ public class CodeCompilerTest {
                 new CompiledClassCollector();
         assertFalse(this.engine.compile(classFileName, fileContents, 
                                         compileErrors, compiledClassCollector));
-        List<? extends CompileError> errors = compileErrors.getErrors();
+        List<? extends Result> errors = compileErrors.getErrors();
         assertFalse(errors.isEmpty());
         byte[] byteCode = compiledClassCollector.getClassBytes().
                                     get(compiledClassCollector.getFQCN());        

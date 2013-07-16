@@ -8,6 +8,7 @@ import com.codeengine.java.impl.CodeCompilerImpl;
 import com.codeengine.java.impl.CodeRunnerCallable;
 import com.codeengine.java.impl.CompileErrorCollector;
 import com.codeengine.java.impl.CompiledClassCollector;
+import com.codeengine.java.impl.RunResultCollector;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -74,11 +75,12 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         Integer expResult = 3;
-        Future<CodeRunResult> result = executor.submit(instance);
+        Future<RunResultCollector> result = executor.submit(instance);
         
         //Blocking call
-        CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult());
+        RunResultCollector runResult = result.get();
+        CodeRunResult codeRunResult = runResult.getOutput();
+        assertTrue(codeRunResult.isSuccess());
         Integer actual = codeRunResult.getOutput();
         assertEquals(expResult, actual);
     }
@@ -100,7 +102,7 @@ public class CodeRunnerCallableTest {
         // Compile failed
         assertFalse(compileResult);
         
-        List<? extends CompileError> errors = compileErrors.getErrors();
+        List<? extends Result> errors = compileErrors.getErrors();
         assertFalse(errors.isEmpty());
         byte[] byteCode = compiledClassCollector.getClassBytes().
                                     get(compiledClassCollector.getFQCN());        
@@ -131,11 +133,12 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         Integer expResult = 5;
-        Future<CodeRunResult> result = executor.submit(instance);
+        Future<RunResultCollector> result = executor.submit(instance);
         
         //Blocking call
-        CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult());
+        RunResultCollector runResult = result.get();
+        CodeRunResult codeRunResult = runResult.getOutput();
+        assertTrue(codeRunResult.isSuccess());
         assertEquals(expResult, codeRunResult.getOutput());
     }
     
@@ -165,11 +168,12 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         Integer expResult = 8;
-        Future<CodeRunResult> result = executor.submit(instance);
+        Future<RunResultCollector> result = executor.submit(instance);
         
         //Blocking call
-        CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult());
+        RunResultCollector runResult = result.get();
+        CodeRunResult codeRunResult = runResult.getOutput();
+        assertTrue(codeRunResult.isSuccess());
         assertEquals(expResult, codeRunResult.getOutput());
     }
     
@@ -195,11 +199,12 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         String expResult = "yajuS";
-        Future<CodeRunResult> result = executor.submit(instance);
+        Future<RunResultCollector> result = executor.submit(instance);
         
         //Blocking call
-        CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult());
+        RunResultCollector runResult = result.get();
+        CodeRunResult codeRunResult = runResult.getOutput();
+        assertTrue(codeRunResult.isSuccess());
         assertEquals(expResult, codeRunResult.getOutput());
     }
     
@@ -226,20 +231,16 @@ public class CodeRunnerCallableTest {
                         fqcn, methodToInvoke, params);
         String expResult = "yajuS";
         
-        Future<CodeRunResult> result = executor.submit(instance);
+        Future<RunResultCollector> result = executor.submit(instance);
         
-        CodeRunResult codeRunResult = null;
-        try {
-            // Blocking call
-            codeRunResult = result.get();
-            //should not reach the next statement
-            fail("Test for error in instance method invocation failed");
-        } catch (Exception e) {
-            // should throw an StringIndexOutOfBoundsException as expected            
-            assertTrue(
-                    "should throw an java.lang.StringIndexOutOfBoundsException",
-                    true);
-        }
+        //Blocking call
+        RunResultCollector runResult = result.get();
+        CodeRunResult codeRunResult = runResult.getOutput();
+        assertFalse(codeRunResult.isSuccess());
+        
+        Object actual = codeRunResult.getOutput();
+        assertNotNull(actual);
+        System.out.println(actual);
     }
     
     @Test
@@ -265,11 +266,12 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         Integer expResult = 3;
-        Future<CodeRunResult> result = executor.submit(instance);
+        Future<RunResultCollector> result = executor.submit(instance);
         
         //Blocking call
-        CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult());
+        RunResultCollector runResult = result.get();
+        CodeRunResult codeRunResult = runResult.getOutput();
+        assertTrue(codeRunResult.isSuccess());
         assertEquals(expResult, codeRunResult.getOutput());
     }
     
@@ -295,11 +297,12 @@ public class CodeRunnerCallableTest {
                 new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         String expResult = "yajuS";
-        Future<CodeRunResult> result = executor.submit(instance);
+        Future<RunResultCollector> result = executor.submit(instance);
         
         //Blocking call
-        CodeRunResult codeRunResult = result.get();
-        assertTrue(codeRunResult.getResult());
+        RunResultCollector runResult = result.get();
+        CodeRunResult codeRunResult = runResult.getOutput();
+        assertTrue(codeRunResult.isSuccess());
         assertEquals(expResult, codeRunResult.getOutput());
     }
 }
