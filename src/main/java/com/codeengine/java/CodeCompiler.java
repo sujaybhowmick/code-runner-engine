@@ -5,7 +5,6 @@
 package com.codeengine.java;
 
 import com.codeengine.java.impl.CompileErrorCollector;
-import com.codeengine.java.impl.CompiledClassCollector;
 
 /**
  *
@@ -14,5 +13,5 @@ import com.codeengine.java.impl.CompiledClassCollector;
 public interface CodeCompiler {
     Boolean compile(final String className, final String fileContent, 
             CompileErrorCollector<CompileError> errors,
-            CompiledClassCollector compiledClassCollector);
+            CompiledClassListener compiledClassCollector);
 }

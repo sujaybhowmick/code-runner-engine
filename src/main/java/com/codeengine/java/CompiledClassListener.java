@@ -18,4 +18,6 @@ public interface CompiledClassListener {
     
     void add(ByteArrayJavaClass byteArrayJavaClass);
     
+    String getFQCN();
+    
 }
