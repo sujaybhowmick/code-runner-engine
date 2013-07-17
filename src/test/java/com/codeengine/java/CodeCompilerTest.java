@@ -4,6 +4,7 @@
  */
 package com.codeengine.java;
 
+import com.codeengine.common.Result;
 import com.codeengine.java.impl.CodeCompilerImpl;
 import com.codeengine.java.impl.CompileErrorCollector;
 import com.codeengine.java.impl.CompiledClassCollector;
@@ -37,7 +38,7 @@ public class CodeCompilerTest {
 
     @Before
     public void setUp() {
-        this.engine = new CodeCompilerImpl();
+        this.engine = CodeCompilerImpl.newInstance();
     }
 
     @After
@@ -77,8 +78,8 @@ public class CodeCompilerTest {
         assertNotNull(fileContents);
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                CompiledClassCollector.newInstance();
         assertTrue(this.engine.compile(classFileName, fileContents, 
                                         compileErrors, compiledClassCollector));
         assertTrue(compileErrors.getErrors().isEmpty());
@@ -99,8 +100,8 @@ public class CodeCompilerTest {
         assertNotNull(fileContents);
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                            CompiledClassCollector.newInstance();
         assertTrue(this.engine.compile(classFileName, fileContents, 
                                         compileErrors, compiledClassCollector));
         assertTrue(compileErrors.getErrors().isEmpty());
@@ -120,8 +121,8 @@ public class CodeCompilerTest {
         assertNotNull(fileContents);
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                                CompiledClassCollector.newInstance();
         assertFalse(this.engine.compile(classFileName, fileContents, 
                                         compileErrors, compiledClassCollector));
         List<? extends Result> errors = compileErrors.getErrors();

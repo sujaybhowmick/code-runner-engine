@@ -5,7 +5,7 @@
 package com.codeengine.java.impl;
 
 import com.codeengine.java.CompileError;
-import com.codeengine.java.Result;
+import com.codeengine.common.Result;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 

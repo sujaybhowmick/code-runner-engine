@@ -6,8 +6,8 @@ package com.codeengine.java.impl;
 
 import com.codeengine.java.CompileError;
 import com.codeengine.java.CompileErrorListener;
-import com.codeengine.java.Result;
-import com.codeengine.java.ResultListener;
+import com.codeengine.common.Result;
+import com.codeengine.common.ResultListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

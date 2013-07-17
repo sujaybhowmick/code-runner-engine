@@ -8,7 +8,8 @@ import com.codeengine.java.ByteArrayJavaClass;
 import com.codeengine.java.CodeCompiler;
 import com.codeengine.java.CompileError;
 import com.codeengine.java.CustomForwardingFileManager;
-import com.codeengine.java.Result;
+import com.codeengine.common.Result;
+import com.codeengine.java.CompiledClassListener;
 import com.codeengine.java.StringBuilderJavaSource;
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,6 +32,13 @@ public final class CodeCompilerImpl implements CodeCompiler {
 
     final Logger log = LoggerFactory.getLogger(CodeCompilerImpl.class);
     
+    private CodeCompilerImpl(){
+    }
+    
+    public static CodeCompiler newInstance(){
+        return new CodeCompilerImpl();
+    }
+    
     /**
      *
      * @param className - The class name of the code to compile
@@ -38,9 +46,9 @@ public final class CodeCompilerImpl implements CodeCompiler {
      * @return
      */
     @Override
-    public Boolean compile(String className, String fileContent,
-            CompileErrorCollector<CompileError> errors, 
-            CompiledClassCollector compiledClassCollector) {
+    public Boolean compile(final String className, final String fileContent,
+            final CompileErrorCollector<CompileError> errors, 
+            final CompiledClassListener compiledClassCollector) {
         if (className == null || className.isEmpty()) {
             log.debug("className is null");
             throw new IllegalArgumentException("className cannot be null");

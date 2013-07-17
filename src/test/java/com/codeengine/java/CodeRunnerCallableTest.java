@@ -4,12 +4,14 @@
  */
 package com.codeengine.java;
 
+import com.codeengine.common.Result;
 import com.codeengine.java.impl.CodeCompilerImpl;
 import com.codeengine.java.impl.CodeRunnerCallable;
 import com.codeengine.java.impl.CompileErrorCollector;
 import com.codeengine.java.impl.CompiledClassCollector;
 import com.codeengine.java.impl.RunResultCollector;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -58,11 +60,11 @@ public class CodeRunnerCallableTest {
         String classFileName = "TestSourceFile";
         String methodToInvoke = "add";
         String fileContents = FileUtils.fileRead(javaFileName);
-        CodeCompiler engine = new CodeCompilerImpl();
+        CodeCompiler engine = CodeCompilerImpl.newInstance();
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                                    CompiledClassCollector.newInstance();
         Boolean compileResult = engine.compile(classFileName, fileContents, 
                                 compileErrors, compiledClassCollector);
         // No compiler Errors
@@ -71,8 +73,9 @@ public class CodeRunnerCallableTest {
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {1, 2};
         
-        CodeRunnerCallable instance = 
-                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+        Callable<RunResultCollector> instance = 
+                CodeRunnerCallable.newInstance(
+                compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         Integer expResult = 3;
         Future<RunResultCollector> result = executor.submit(instance);
@@ -87,7 +90,7 @@ public class CodeRunnerCallableTest {
     
     @Test
     public void testCompileFailure() throws Exception {
-        CodeCompiler engine = new CodeCompilerImpl();
+        CodeCompiler engine = CodeCompilerImpl.newInstance();
         final String javaFileName = 
                 "src/test/resources/CompileErrorTestFile.txt";
         final String classFileName = "CompileErrorTestFile";
@@ -95,8 +98,8 @@ public class CodeRunnerCallableTest {
         assertNotNull(fileContents);
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                                    CompiledClassCollector.newInstance();
         Boolean compileResult = engine.compile(classFileName, fileContents, 
                                 compileErrors, compiledClassCollector);
         // Compile failed
@@ -116,11 +119,11 @@ public class CodeRunnerCallableTest {
         String classFileName = "TestSourceFile";
         String methodToInvoke = "add2";
         String fileContents = FileUtils.fileRead(javaFileName);
-        CodeCompiler engine = new CodeCompilerImpl();
+        CodeCompiler engine = CodeCompilerImpl.newInstance();
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                                        CompiledClassCollector.newInstance();
         Boolean compileResult = engine.compile(classFileName, fileContents, 
                             compileErrors, compiledClassCollector);
         // No compiler Errors
@@ -129,8 +132,9 @@ public class CodeRunnerCallableTest {
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {2, 3};
         
-        CodeRunnerCallable instance = 
-                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+        Callable<RunResultCollector> instance = 
+                CodeRunnerCallable.newInstance(
+                compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         Integer expResult = 5;
         Future<RunResultCollector> result = executor.submit(instance);
@@ -150,12 +154,11 @@ public class CodeRunnerCallableTest {
         String classFileName = "TestSourceFile";
         String methodToInvoke = "subtract";
         String fileContents = FileUtils.fileRead(javaFileName);
-        CodeCompiler engine = new CodeCompilerImpl();
+        CodeCompiler engine = CodeCompilerImpl.newInstance();
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
-        
+        CompiledClassListener compiledClassCollector = 
+                                        CompiledClassCollector.newInstance();        
         Boolean compileResult = engine.compile(classFileName, fileContents, 
                 compileErrors, compiledClassCollector);
         // No compiler Errors
@@ -164,8 +167,9 @@ public class CodeRunnerCallableTest {
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {10, 2};
         
-        CodeRunnerCallable instance = 
-                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+        Callable<RunResultCollector> instance = 
+                CodeRunnerCallable.newInstance(
+                compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         Integer expResult = 8;
         Future<RunResultCollector> result = executor.submit(instance);
@@ -183,11 +187,11 @@ public class CodeRunnerCallableTest {
         String classFileName = "TestSourceFile";
         String methodToInvoke = "reverseString";
         String fileContents = FileUtils.fileRead(javaFileName);
-        CodeCompiler engine = new CodeCompilerImpl();
+        CodeCompiler engine = CodeCompilerImpl.newInstance();
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                                        CompiledClassCollector.newInstance();
         Boolean compileResult = engine.compile(classFileName, fileContents, 
                 compileErrors, compiledClassCollector);
         // No compiler Errors
@@ -195,8 +199,9 @@ public class CodeRunnerCallableTest {
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {"Sujay"};
         
-        CodeRunnerCallable instance = 
-                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+        Callable<RunResultCollector> instance = 
+                CodeRunnerCallable.newInstance(
+                compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         String expResult = "yajuS";
         Future<RunResultCollector> result = executor.submit(instance);
@@ -214,11 +219,11 @@ public class CodeRunnerCallableTest {
         String classFileName = "TestSourceFile";
         String methodToInvoke = "errorMethod";
         String fileContents = FileUtils.fileRead(javaFileName);
-        CodeCompiler engine = new CodeCompilerImpl();
+        CodeCompiler engine = CodeCompilerImpl.newInstance();
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                                        CompiledClassCollector.newInstance();
         Boolean compileResult = engine.compile(classFileName, fileContents, 
                 compileErrors, compiledClassCollector);
         // No compiler Errors
@@ -226,8 +231,9 @@ public class CodeRunnerCallableTest {
         
         Object[] params = {"Sujay"};
         String fqcn = compiledClassCollector.getFQCN();
-        CodeRunnerCallable instance = 
-                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+        Callable<RunResultCollector> instance = 
+                CodeRunnerCallable.newInstance(
+                compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         String expResult = "yajuS";
         
@@ -249,11 +255,11 @@ public class CodeRunnerCallableTest {
         String classFileName = "PackageSourceTestFile";
         String methodToInvoke = "add";
         String fileContents = FileUtils.fileRead(javaFileName);
-        CodeCompiler engine = new CodeCompilerImpl();
+        CodeCompiler engine = CodeCompilerImpl.newInstance();
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                                        CompiledClassCollector.newInstance();
         Boolean compileResult = engine.compile(classFileName, fileContents, 
                 compileErrors, compiledClassCollector);
         // No compiler Errors
@@ -262,8 +268,9 @@ public class CodeRunnerCallableTest {
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {1, 2};
         
-        CodeRunnerCallable instance = 
-                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+        Callable<RunResultCollector> instance = 
+                CodeRunnerCallable.newInstance(
+                compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         Integer expResult = 3;
         Future<RunResultCollector> result = executor.submit(instance);
@@ -281,11 +288,11 @@ public class CodeRunnerCallableTest {
         String classFileName = "PackageSourceTestFile";
         String methodToInvoke = "reverseString";
         String fileContents = FileUtils.fileRead(javaFileName);
-        CodeCompiler engine = new CodeCompilerImpl();
+        CodeCompiler engine = CodeCompilerImpl.newInstance();
         CompileErrorCollector<CompileError> compileErrors = 
                 new CompileErrorCollector<CompileError>();
-        CompiledClassCollector compiledClassCollector = 
-                new CompiledClassCollector();
+        CompiledClassListener compiledClassCollector = 
+                                        CompiledClassCollector.newInstance();
         Boolean compileResult = engine.compile(classFileName, fileContents, 
                 compileErrors, compiledClassCollector);
         // No compiler Errors
@@ -293,8 +300,9 @@ public class CodeRunnerCallableTest {
         
         String fqcn = compiledClassCollector.getFQCN();
         Object[] params = {"Sujay"};
-        CodeRunnerCallable instance = 
-                new CodeRunnerCallable(compiledClassCollector.getClassBytes(),
+        Callable<RunResultCollector> instance = 
+                CodeRunnerCallable.newInstance(
+                compiledClassCollector.getClassBytes(),
                         fqcn, methodToInvoke, params);
         String expResult = "yajuS";
         Future<RunResultCollector> result = executor.submit(instance);

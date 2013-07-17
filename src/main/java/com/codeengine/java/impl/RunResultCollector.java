@@ -5,8 +5,8 @@
 package com.codeengine.java.impl;
 
 import com.codeengine.java.CodeRunResult;
-import com.codeengine.java.Result;
-import com.codeengine.java.ResultListener;
+import com.codeengine.common.Result;
+import com.codeengine.common.ResultListener;
 
 /**
  *
@@ -15,8 +15,15 @@ import com.codeengine.java.ResultListener;
 public class RunResultCollector<S> implements ResultListener<S>{
     private Result result;
     
+    private RunResultCollector(){
+    }
+    
+    public static RunResultCollector newInstance(){
+        return new RunResultCollector();
+    }
+    
     @Override
-    public void report(Result<? extends S> result){
+    public synchronized void report(Result<? extends S> result){
         this.result = result;
     }
     

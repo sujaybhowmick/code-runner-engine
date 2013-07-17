@@ -5,7 +5,6 @@
 package com.codeengine.java.impl;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
@@ -26,7 +25,7 @@ public final class CodeRunnerCallable implements Callable<RunResultCollector>{
     private Object[] params;
     private Class<?>[] paramTypes;
     
-    public CodeRunnerCallable(Map<String, byte[]> classBytes, 
+    private CodeRunnerCallable(Map<String, byte[]> classBytes, 
                         final String fqcn, final String methodToInvoke,
                         Object... params){
         this.classBytes = classBytes;
@@ -39,6 +38,12 @@ public final class CodeRunnerCallable implements Callable<RunResultCollector>{
         }else {
             this.params = new Object[]{};
         }
+    }
+    
+    public static Callable<RunResultCollector> newInstance(Map<String, byte[]> 
+            classBytes, final String fqcn, final String methodToInvoke,
+                        Object... params){
+        return new CodeRunnerCallable(classBytes, fqcn, methodToInvoke, params);
     }
     
     @Override
@@ -72,11 +77,12 @@ public final class CodeRunnerCallable implements Callable<RunResultCollector>{
                 }
             }
             if(signatureChanged){
-                method = clazz.getDeclaredMethod(this.methodToInvoke, this.paramTypes);
+                method = clazz.getDeclaredMethod(this.methodToInvoke, 
+                                                    this.paramTypes);
             }
             
         }
-        RunResultCollector resultCollector = new RunResultCollector();
+        RunResultCollector resultCollector = RunResultCollector.newInstance();
         if(method != null){
             if(Modifier.isStatic(method.getModifiers())){
                 resultCollector.report(runStaticMethod(method));

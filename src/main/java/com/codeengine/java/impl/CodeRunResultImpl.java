@@ -5,7 +5,7 @@
 package com.codeengine.java.impl;
 
 import com.codeengine.java.CodeRunResult;
-import com.codeengine.java.Result;
+import com.codeengine.common.Result;
 import com.codeengine.utils.ConvertUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
